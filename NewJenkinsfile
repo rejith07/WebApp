@@ -25,7 +25,7 @@ pipeline {
           agent any
             steps {
                      sh 'mvn package'
-                     sh "deploy adapters: [tomcat7(credentialsId: 'tomcat', path: '', url: 'http://18.218.133.60:8080/')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'"
+                     sh "deploy adapters: [tomcat7(credentialsId: 'tomcat', path: '', url: 'http://18.191.153.44:8080/')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war'"
                   }
              }
        }  
