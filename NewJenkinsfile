@@ -1,4 +1,4 @@
-  pipeline {
+      pipeline {
         agent none
         tools {
           maven 'maven'
@@ -7,8 +7,8 @@
           stage("build & SonarQube analysis") {
             agent any
             steps {
-              withSonarQubeEnv('sonar') {
-                sh 'mvn compile sonar:sonar'
+              withSonarQubeEnv('sonarqube') {
+                sh 'mvn clean package admin:admin'
               }
             }
           }
