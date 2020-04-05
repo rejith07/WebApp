@@ -27,6 +27,6 @@ pipeline {
                      sh 'mvn package'
                      sh 'deploy adapters: [tomcat4(credentialsId: 'tomcat', path: '', url: 'http://18.191.153.44:8080/')], contextPath: '/QAWebapp', onFailure: false, war: '**/*.war '
                
-                      }             
-                   }
+             }             
+           }
        }
