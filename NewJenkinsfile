@@ -48,7 +48,7 @@ pipeline {
              }
             }    
           */
-          /*
+          
           stage("Performance Test") {
           agent any
             steps {
@@ -57,14 +57,27 @@ pipeline {
                        blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'
                      }
                }
-             }*/
+             }
+           stage('Jira'){
+           agent any
+            steps  {
+                script{
+                        step([$class: 'hudson.plugins.jira.JiraIssueUpdater', 
+                       issueSelector: [$class: 'hudson.plugins.jira.selector.DefaultIssueSelector'], 
+                        scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
+                         userRemoteConfigs: [[url: 'https://github.com/rejith07/WebApp.git']]]])
+                    }
+                 }
+              }
+
+             /*
          stage ('Slack Notification') {
           agent any
           steps {
         // send build started notifications
         slackSend (color: '#FFFF00', message: "STARTED: Job Build Succesfully")
         }  
-       }  
+       }  */
              
       }
     
