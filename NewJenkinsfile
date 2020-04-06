@@ -51,7 +51,10 @@ pipeline {
           stage("Performance Test") {
           agent any
             steps {
-                     sh "blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'"
+                     //sh "blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'"
+                     scripts {
+                       blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'
+                     }
                }
              }          
       }
