@@ -27,7 +27,7 @@ pipeline {
                      sh 'mvn package'
                }
              }
-             
+            /*
            stage('Upload to Artifactory'){
               steps{
                    script{
@@ -38,12 +38,13 @@ pipeline {
                   }
               }        
           }
+          */
           stage("Functional Test") {
           agent any
             steps {
                    scripts{
-                     def rt1Maven = Artifactory.newMavenBuild()
-                     def buildInfo = rt1Maven.run pom: 'functionaltest/pom.xml', goals: 'test'
+                     def rtMaven = Artifactory.newMavenBuild()
+                     def buildInfo = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
                      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
                }
              }
