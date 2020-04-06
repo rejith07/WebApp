@@ -5,6 +5,13 @@ pipeline {
         }
    
         stages {
+
+         stage ('Slack Notification - Start') {
+          agent any
+          steps {
+           slackSend (color: '#FFFF00', message: "STARTED: Build Pipeline")
+        }  
+       }
         
           stage("Source code analysis") {
             agent any
@@ -45,7 +52,18 @@ pipeline {
                           server.publishBuildInfo buildInfo
                       }
                   }
-              }      
+              }  
+         stage("Functional Test") {
+                  agent any
+                  steps { 
+                      script {
+                          def rtMaven = Artifactory.newMavenBuild()
+                          def buildInfo = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
+                          def tar = [allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '']
+                          publishHTML(tar)
+                      }
+                  }
+              } 
           stage("Performance Test") {
           agent any
             steps {
@@ -77,11 +95,11 @@ pipeline {
                       }
                   }
               }
-        stage ('Slack Notifications') {
+        stage ('Slack Notification - Final') {
           agent any
           steps {
         // send build started notifications
-        slackSend (color: '#FFFF00', message: "STARTED: Job Deploy to PROD Succesfully")
+        slackSend (color: '#FFFF00', message: "Completed: Build Pipeline Completed")
         }  
        }
      }
