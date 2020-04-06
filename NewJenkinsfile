@@ -42,7 +42,7 @@ pipeline {
           stage("Functional Test") {
           agent any
             steps {
-                   sh 'functionaltest/pom.xml test'
+                   sh 'mvn -f functionaltest/pom.xml test'
                    sh "publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])"
              }
             }                              
