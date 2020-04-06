@@ -48,6 +48,7 @@ pipeline {
              }
             }    
           */
+          /*
           stage("Performance Test") {
           agent any
             steps {
@@ -56,7 +57,15 @@ pipeline {
                        blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'
                      }
                }
-             }          
+             }*/
+         stage ('Slack Notification') {
+          agent any
+          steps {
+        // send build started notifications
+        slackSend (color: '#FFFF00', message: "STARTED: Job Build Succesfully")
+        }  
+       }  
+             
       }
     
     }    
