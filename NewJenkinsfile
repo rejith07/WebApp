@@ -37,4 +37,6 @@ pipeline {
                       rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
                   }
               }        
-      } 
+       }
+      }
+    
