@@ -32,5 +32,57 @@ pipeline {
                       }
                   }
               }
-            }
-          }     
+   stage("Deploy to Artifactory") {
+                  agent any
+                  steps {
+                      script {
+                          def server = Artifactory.server 'artifactory'
+                          def rtMaven = Artifactory.newMavenBuild()
+                          rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
+                          rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
+                          rtMaven.deployer.artifactDeploymentPatterns.addInclude("*.war").addExclude("*.zip")
+                          def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'package'
+                          server.publishBuildInfo buildInfo
+                      }
+                  }
+              }      
+          stage("Performance Test") {
+          agent any
+            steps {
+                     //sh "blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'"
+                     script {
+                       blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'
+                     }
+               }
+             }
+           stage('Jira'){
+           agent any
+            steps  {
+                script{
+                        step([$class: 'hudson.plugins.jira.JiraIssueUpdater', 
+                       issueSelector: [$class: 'hudson.plugins.jira.selector.DefaultIssueSelector'], 
+                        scm: [$class: 'GitSCM', branches: [[name: '*/master']], 
+                         userRemoteConfigs: [[url: 'https://github.com/rejith07/WebApp.git']]]])
+                    }
+                 }
+              }
+        stage("Deploy to PROD") {
+                  agent any
+                  steps {
+                      script {
+                          def rtMaven = Artifactory.newMavenBuild()
+                          def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'package'
+                          def tc7 = tomcat7(url: 'http://3.135.238.184:8080/', credentialsId: 'tomcat')
+                          deploy(adapters: [tc7], war: '**/*.war', contextPath: '/QAWebapp')
+                      }
+                  }
+              }
+        stage ('Slack Notification') {
+          agent any
+          steps {
+        // send build started notifications
+        slackSend (color: '#FFFF00', message: "STARTED: Job Deploy to PROD Succesfully")
+        }  
+       }
+     }
+   }     
