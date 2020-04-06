@@ -42,9 +42,8 @@ pipeline {
           agent any
             steps {
                    scripts{
-                     //def rtMaven = Artifactory.newMavenBuild()
-                     //def buildInfo = rtMaven.run pom: 'functionaltest/pom.xml', goals: 'test'
-                     def  pom: 'functionaltest/pom.xml', goals: 'test'
+                     def rt1Maven = Artifactory.newMavenBuild()
+                     def buildInfo = rt1Maven.run pom: 'functionaltest/pom.xml', goals: 'test'
                      publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '\\functionaltest\\target\\surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: ''])
                }
              }
