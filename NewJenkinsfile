@@ -28,7 +28,7 @@ pipeline {
                sh 'mvn compile'
                }
              }
-    stage("Deploy to QA") {
+        stage("Deploy to QA") {
                   agent any
                   steps {
                       script {
@@ -39,7 +39,7 @@ pipeline {
                       }
                   }
               }
-   stage("Deploy to Artifactory") {
+        stage("Deploy to Artifactory") {
                   agent any
                   steps {
                       script {
@@ -91,7 +91,7 @@ pipeline {
                           def rtMaven = Artifactory.newMavenBuild()
                           def buildInfo = rtMaven.run pom: 'pom.xml', goals: 'package'
                           def tc7 = tomcat7(url: 'http://3.135.238.184:8080/', credentialsId: 'tomcat')
-                          deploy(adapters: [tc7], war: '**/*.war', contextPath: '/QAWebapp')
+                          deploy(adapters: [tc7], war: '**/*.war', contextPath: '/PRODWebapp')
                       }
                   }
               }
