@@ -77,7 +77,7 @@ pipeline {
                       }
                   }
               }
-        stage ('Slack Notification') {
+        stage ('Slack Notifications') {
           agent any
           steps {
         // send build started notifications
