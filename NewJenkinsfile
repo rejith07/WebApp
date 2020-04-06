@@ -52,7 +52,7 @@ pipeline {
           agent any
             steps {
                      //sh "blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'"
-                     scripts {
+                     script {
                        blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'
                      }
                }
