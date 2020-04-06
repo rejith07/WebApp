@@ -28,5 +28,15 @@ pipeline {
                      sh "deploy adapters: [tomcat7(credentialsId: 'tomcat', path: '', url: 'http://18.191.153.44:8080/')], contextPath: '/QAWebapp', war: '**/*.war'"
                }
              }
+             
+           stage('Upload to Artifactory'){
+              steps{
+                   script{
+                      def server = Artifactory.server 'artifactory'
+                      def rtMaven = Artifactory.newMavenBuild()
+                      rtMaven.deployer releaseRepo:'libs-release-local', snapshotRepo:'libs-snapshot-local', server: server
+                      rtMaven.resolver releaseRepo:'libs-release', snapshotRepo:'libs-snapshot', server: server
+                  }
+              }       
        }  
       } 
