@@ -69,7 +69,7 @@ pipeline {
             steps {
                      //sh "blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'"
                      script {
-                       blazeMeterTest credentialsId: 'PerformaceTest', testId: '7895517.taurus', workspaceId: '461102'
+                       blazeMeterTest credentialsId: 'PerformaceTest', testId: '7840673.taurus', workspaceId: '461131'
                      }
                }
              }
