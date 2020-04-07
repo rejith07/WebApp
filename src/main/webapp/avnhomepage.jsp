@@ -23,7 +23,7 @@ background-color: #f9f8f7;
 {
 
 text-align: right;
-
+ 
 }
 
 .wlp-login-message-content {
