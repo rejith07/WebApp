@@ -138,7 +138,7 @@ color:white;
 
    &#169; DEVOPS UNION. All Rights Reserved.<br>
 
-   | Japan | Singapore | Belgium | USA |
+   | CHINA | Singapore | Belgium | USA |
 
   </div>
 
